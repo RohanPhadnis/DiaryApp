@@ -1,21 +1,44 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Display from './components/Feed';
+import Form from './components/Post';
+import {createAppContainer} from 'react-navigation';
+import {createBottomTabNavigator} from 'react-navigation-tabs';
+import {NavigationContainer} from '@react-navigation/native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export default function App() {
+
+function Feed() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Display/>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+function Post() {
+    return (
+        <Form/>
+    );
+}
+
+
+const MainNav = createBottomTabNavigator({
+    feed: {
+        screen: Feed,
+        navigationOptions: {
+            tabBarIcon: ({ focused, tintColor }) => {
+                return <Ionicons name='ios-options-outline' size={25} color={tintColor} />;
+            }
+        }
+    },
+    post: {
+        screen: Post,
+        navigationOptions: {
+            tabBarIcon: ({ focused, tintColor }) => {
+                return <Ionicons name='ios-create-outline' size={25} color={tintColor} />;
+            }
+        }
+    }
 });
+
+export default createAppContainer(MainNav);
